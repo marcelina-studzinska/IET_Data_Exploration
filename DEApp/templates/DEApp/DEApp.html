@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<form method="post" style="text-align: center;" action="{% url 'covid_plot' %}">
+    {% csrf_token %}
+    <div class="wrapper">
+      <div class="t11">
+          <select name="country" id="country1" class="select">
+          {% for country1 in countries %}
+            <option value="{{ country1 }}" {% if selected_country == country1 %} selected {%endif%}>{{ country1 }}</option>
+        {% endfor %}
+              </select>
+          Country
+      </div>
+
+      <div class="t12">
+          <select name="another_country" id="country2" class="select">
+          {% for country2 in countries %}
+            <option value="{{ country2 }}" {% if selected_another_country == country2 %} selected {%endif%}>{{ country2 }}</option>
+        {% endfor %}
+              </select>
+          Additional country
+      </div>
+
+      <div class="t13">
+          <select name="measurement" id="measurement" class="select">
+          {% for measurement in measurements %}
+            <option value="{{ measurement }}" {% if selected_measurement == measurement %} selected {%endif%}>{{ measurement }}</option>
+        {% endfor %}
+              </select>
+          Measurement
+      </div>
+
+        <div class="t14">
+           <select name="time" id="time" class="select">
+          {% for time in times %}
+            <option value="{{ time }}" {% if selected_time == time %} selected {%endif%}>{{ time }}</option>
+        {% endfor %}
+              </select>
+            Time range
+      </div>
+
+       <div class="t16">
+          <input class="button" type="submit" value="Submit"/>
+      </div>
+
+     <div style="text-align: center;" class="t21">
+      <img style="width:90%;" src="/static/images/covid1.png"/>
+     </div>
+
+     <div style="text-align: center;" class="t22">
+      <img style="width:90%;" src="/static/images/covid2.png"/>
+     </div>
+
+     <div style="text-align: center;" class="t31">
+      {{ ranking|linebreaks }}
+     </div>
+
+     <div style="text-align: center;" class="t32">
+      <img style="width:90%;" src="/static/images/covid3.png"/>
+     </div>
+
+    </div>
+</form>
+{% endblock %}
