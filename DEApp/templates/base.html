@@ -33,6 +33,9 @@
                         </div>
                     </div>
                 </div>
+                <button class="tablink" onclick="location.href={% url 'covid_plot' %}" id="defaultOpen">Basic plots</button>
+                <button class="tablink" onclick="location.href={% url 'advanced_analysis' %}">Advanced analysis</button>
+                <button class="tablink" onclick="location.href={% url 'predictions' %}">Predictions</button>
             </header>
             <div class="main">
 				<div class="main__content">
