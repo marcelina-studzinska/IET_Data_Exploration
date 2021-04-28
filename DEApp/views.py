@@ -34,3 +34,13 @@ def covid_plot(request):
     draw_covid3(context['selected_country'], context['selected_measurement'], context['selected_time'])
     context['ranking'] = get_rank(context['selected_measurement'])
     return render(request, 'DEApp/DEApp.html', context)
+
+
+def predictions(request):
+    # TODO
+    return render(request, 'DEApp/Predictions.html', context)
+
+
+def advanced_analysis(request):
+    # TODO
+    return render(request, 'DEApp/AdvancedAnalysis.html', context)
