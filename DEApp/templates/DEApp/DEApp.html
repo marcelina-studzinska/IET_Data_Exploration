@@ -40,6 +40,15 @@
             Time range
       </div>
 
+         <div class="t15">
+           <select name="time" id="shares" class="select">
+          {% for time in times %}
+            <option value="{{ time }}" {% if selected_time == time %} selected {%endif%}>{{ time }}</option>
+        {% endfor %}
+              </select>
+            Shares
+      </div>
+
        <div class="t16">
           <input class="button" type="submit" value="Submit"/>
       </div>
@@ -52,12 +61,16 @@
       <img style="width:90%;" src="/static/images/covid2.png"/>
      </div>
 
-     <div style="text-align: center;" class="t31">
-      {{ ranking|linebreaks }}
+     <div style="text-align: center;" class="t23">
+       <img style="width:90%;" src="/static/images/covid3.png"/>
      </div>
 
-     <div style="text-align: center;" class="t32">
-      <img style="width:90%;" src="/static/images/covid3.png"/>
+     <div style="text-align: center;" class="t31">
+      <img style="width:90%;" src="/static/images/covid4.png"/>
+     </div>
+
+        <div style="text-align: center;" class="t32">
+      <img style="width:90%;" src="/static/images/covid4.png"/>
      </div>
 
     </div>

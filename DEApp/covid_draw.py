@@ -1,12 +1,13 @@
 from datetime import timedelta, datetime
 from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
-import pandas as pd
 from dateutil.relativedelta import relativedelta
+
+from DEApp.data_loader import COVID_DATA, GROUPS
 
 
 def prepare_covid_data(time):
-    data = pd.read_csv('covid_data/covid_full.csv', index_col='date', parse_dates=True)
+    data = COVID_DATA
     today = datetime.now()
     time_prior = today - timedelta(days=1)
     if time == 'week':
@@ -82,7 +83,34 @@ def draw_covid2(country1, country2, measure, time):
     fig.clf()
 
 
-def draw_covid3(country, measure, time):
+def get_rank(measure):
+    """
+    Prepare basic plot.
+    :param measure: str measurement to be plotted
+    """
+    data = COVID_DATA
+    time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    time = time - timedelta(hours=24)
+    data = data[data.index == time]
+    data = data[~data.location.isin(GROUPS)]
+    ranking = data.sort_values(measure, ascending=False)[['location', measure]]
+    ranking.set_index('location', inplace=True)
+    fig, ax = plt.subplots(figsize=(20, 8))
+    ax.bar(ranking[:5].index, ranking[:5][measure].values)
+    plt.xticks(rotation=30, )
+    plt.title("Top 5 " + measure, fontdict={'fontsize': 40, 'color': "white"})
+    plt.legend()
+    ax.set_ylabel(measure)
+    ax.xaxis.label.set_color('white')
+    ax.yaxis.label.set_color('white')
+    ax.xaxis.label.set_fontsize(30)
+    ax.yaxis.label.set_fontsize(30)
+    ax.tick_params(colors='white')
+    fig.savefig('static/images/covid3.png', dpi=300, bbox_inches='tight', transparent=True)
+    fig.clf()
+
+
+def draw_covid_shares(country, measure, time):
     """
     Prepare basic plot.
     :param country: str country name
@@ -91,6 +119,7 @@ def draw_covid3(country, measure, time):
     """
     data, time_prior = prepare_covid_data(time)
     data = data[data['location'] == country]
+    plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots(figsize=(20, 8))
     ax.hist(data[measure], density=True, color='red', edgecolor='black')
     plt.xticks(rotation=30,)
@@ -101,23 +130,5 @@ def draw_covid3(country, measure, time):
     ax.xaxis.label.set_fontsize(30)
     ax.yaxis.label.set_fontsize(30)
     ax.tick_params(colors='white')
-    fig.savefig('static/images/covid3.png', dpi=300, bbox_inches='tight', transparent=True)
+    fig.savefig('static/images/covid4.png', dpi=300, bbox_inches='tight', transparent=True)
     fig.clf()
-
-
-def get_rank(measure):
-    """
-    Prepare basic plot.
-    :param measure: str measurement to be plotted
-    """
-    data = pd.read_csv('covid_data/covid_full.csv', index_col='date', parse_dates=True)
-    time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-    time = time - timedelta(hours=24)
-    data = data[data.index == time]
-    ranking = data.sort_values(measure, ascending=False)['location']
-    result = 'Top countries yesterday:\n'
-    for i, r in enumerate(ranking):
-        result += "{}. ".format(i+1) + "{} ".format(r) + "- {}\n".format(int(data[data['location'] == r][measure][0]))
-        if i >= 4:
-            break
-    return result

@@ -18,7 +18,7 @@ def index(request):
     draw_covid2(context['selected_country'], context['selected_another_country'], context['selected_measurement'],
                 context['selected_time'])
     draw_covid3(context['selected_country'], context['selected_measurement'], context['selected_time'])
-    context['ranking'] = get_rank(context['selected_measurement'])
+    get_rank(context['selected_measurement'])
     return render(request, 'DEApp/DEApp.html', context)
 
 
@@ -32,7 +32,7 @@ def covid_plot(request):
     draw_covid2(context['selected_country'], context['selected_another_country'], context['selected_measurement'],
                 context['selected_time'])
     draw_covid3(context['selected_country'], context['selected_measurement'], context['selected_time'])
-    context['ranking'] = get_rank(context['selected_measurement'])
+    get_rank(context['selected_measurement'])
     return render(request, 'DEApp/DEApp.html', context)
 
 
