@@ -21,22 +21,20 @@
     </head>
     <body>
         <div id="page" class="hfeed site">
-            <header>
-                <div class="header">
-                    <div class="main-head-wrap inner-wrap clearfix">
-                        <div id="header-logo-image">
-                        </div>
-                        <div id="header-text" class="">
-                           <h1 style="text-align:center;">
-                                <a href="/" title="CovidDE" rel="home" style="text-align:center; color:#FFF">Covid Analysis</a>
-                            </h1>
-                        </div>
+            <div class="header">
+                <div class="main-head-wrap inner-wrap clearfix">
+                    <div id="header-logo-image">
+                    </div>
+                    <div id="header-text" class="">
+                       <h1>
+                            <a href="/" title="CovidDE" rel="home">Covid Analysis</a>
+                       </h1>
                     </div>
                 </div>
                 <button class="tablink" onclick="location.href={% url 'covid_plot' %}" id="defaultOpen">Basic plots</button>
                 <button class="tablink" onclick="location.href={% url 'advanced_analysis' %}">Advanced analysis</button>
                 <button class="tablink" onclick="location.href={% url 'predictions' %}">Predictions</button>
-            </header>
+            </div>
             <div class="main">
 				<div class="main__content">
 					{% block content %}
