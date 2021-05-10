@@ -44,8 +44,7 @@ CURRENCY_CODES = None
 #             return True
 #         else:
 #             return False
-#     else:
-#         return False
+#     else:#         return False
 #
 #
 # def return_valid_date(value):
@@ -95,4 +94,4 @@ def load_currency_code():
 
 def download_whole_data():
     download_whole_covid_data()
-    # load_currency_code()
+    load_currency_code()

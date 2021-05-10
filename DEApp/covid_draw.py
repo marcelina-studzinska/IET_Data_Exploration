@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from dateutil.relativedelta import relativedelta
 
 from DEApp.currency_code import get_currencies
-from DEApp.data_loader import COVID_DATA, GROUPS
+from DEApp.data_loader import COVID_DATA, GROUPS, CURRENCY_CODES
 
 
 def prepare_covid_data(time):
@@ -149,19 +149,24 @@ def draw_covid_currency(country1, country2, measure, time):
     plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots(figsize=(20, 8))
     ax.set_xlim([time_prior, datetime.now()])
-    currency = get_currencies(country1, country2, str(datetime.now())[:11], str(time_prior)[:11])
-    print(currency)
+    currency = get_currencies(country1, country2, str(time_prior)[:10], str(datetime.now())[:10])
     ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
     ax.plot(data1[measure], 'r.-', markersize=25, label=country1, linewidth=3)
     ax.plot(data2[measure], 'y.-', markersize=25, label=country2, linewidth=3)
+    ax2 = ax.twinx()
+    ax2.plot(currency, 'go-', markersize=25, label=CURRENCY_CODES[country1] + ' to ' +\
+             CURRENCY_CODES[country2], linewidth=8)
     ax.grid()
     plt.xticks(rotation=30, )
     plt.title(measure + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
     plt.legend()
     ax.xaxis.label.set_color('white')
     ax.yaxis.label.set_color('white')
+    ax2.xaxis.label.set_color('white')
+    ax2.yaxis.label.set_color('white')
     ax.xaxis.label.set_fontsize(30)
     ax.yaxis.label.set_fontsize(30)
     ax.tick_params(colors='white')
+    ax2.tick_params(colors='white')
     fig.savefig('static/images/covid4.png', dpi=300, bbox_inches='tight', transparent=True)
     fig.clf()
