@@ -158,7 +158,7 @@ def draw_covid_currency(country1, country2, measure, time):
              CURRENCY_CODES[country2], linewidth=8)
     ax.grid()
     plt.xticks(rotation=30, )
-    plt.title(measure + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
+    plt.title(measure + " and currencies " + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
     plt.legend()
     ax.xaxis.label.set_color('white')
     ax.yaxis.label.set_color('white')
