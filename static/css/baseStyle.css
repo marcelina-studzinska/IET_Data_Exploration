@@ -102,22 +102,33 @@ a:hover {
 }
 
 .tablink {
-	width: 100%;
+	width: 25vw;
 	max-width: 250px;
-	line-height: 40px;
-	height: 40px;
-	text-align: center;
+	height: 8vh;
+	max-height: 40px;
 	margin: 7px auto 5px 7px;
 	color: #FFF;
     background: none;
     border: 2px solid #FFF;
     border-radius: 6px;
     cursor: pointer;
-    font-weight: 800;
-    font-size: 20px;
-    text-transform: uppercase;
-    overflow: hidden;
 	transition: .5s;
+	overflow-y: hidden;
+}
+
+.tablink-text {
+    max-width: 98%;
+    max-height: 95%;
+    margin: auto;
+	text-align: center;
+	vertical-align: middle;
+    font-weight: 800;
+    font-size: 2.4vh;
+    text-transform: uppercase;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tablink:hover {
