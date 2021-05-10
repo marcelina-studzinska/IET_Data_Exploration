@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from DEApp.data_loader import COLUMNS_COVID_USABLE, TIMES_COVID, COUNTRIES
-from DEApp.covid_draw import draw_covid1, draw_covid2, draw_covid3, get_rank
+from DEApp.covid_draw import draw_covid1, draw_covid2, get_rank, draw_covid_currency
 
 context = dict()
 
@@ -17,8 +17,10 @@ def index(request):
     draw_covid1(context['selected_country'], context['selected_measurement'], context['selected_time'])
     draw_covid2(context['selected_country'], context['selected_another_country'], context['selected_measurement'],
                 context['selected_time'])
-    draw_covid3(context['selected_country'], context['selected_measurement'], context['selected_time'])
     get_rank(context['selected_measurement'])
+    draw_covid_currency(context['selected_country'], context['selected_another_country'],
+                        context['selected_measurement'],
+                        context['selected_time'])
     return render(request, 'DEApp/DEApp.html', context)
 
 
@@ -31,8 +33,10 @@ def covid_plot(request):
     draw_covid1(context['selected_country'], context['selected_measurement'], context['selected_time'])
     draw_covid2(context['selected_country'], context['selected_another_country'], context['selected_measurement'],
                 context['selected_time'])
-    draw_covid3(context['selected_country'], context['selected_measurement'], context['selected_time'])
     get_rank(context['selected_measurement'])
+    draw_covid_currency(context['selected_country'], context['selected_another_country'],
+                        context['selected_measurement'],
+                        context['selected_time'])
     return render(request, 'DEApp/DEApp.html', context)
 
 

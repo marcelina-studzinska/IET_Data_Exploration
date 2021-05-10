@@ -3,6 +3,7 @@ from matplotlib.dates import DateFormatter
 import matplotlib.pyplot as plt
 from dateutil.relativedelta import relativedelta
 
+from DEApp.currency_code import get_currencies
 from DEApp.data_loader import COVID_DATA, GROUPS
 
 
@@ -124,6 +125,38 @@ def draw_covid_shares(country, measure, time):
     ax.hist(data[measure], density=True, color='red', edgecolor='black')
     plt.xticks(rotation=30,)
     plt.title(measure + " in " + country + " histogram", fontdict={'fontsize': 40, 'color': "white"})
+    plt.legend()
+    ax.xaxis.label.set_color('white')
+    ax.yaxis.label.set_color('white')
+    ax.xaxis.label.set_fontsize(30)
+    ax.yaxis.label.set_fontsize(30)
+    ax.tick_params(colors='white')
+    fig.savefig('static/images/covid4.png', dpi=300, bbox_inches='tight', transparent=True)
+    fig.clf()
+
+
+def draw_covid_currency(country1, country2, measure, time):
+    """
+    Prepare basic plot.
+    :param country1: str country name
+    :param country2: str another country name
+    :param measure: str measurement to be plotted
+    :param time: str time range for plot
+    """
+    data, time_prior = prepare_covid_data(time)
+    data1 = data[data['location'] == country1]
+    data2 = data[data['location'] == country2]
+    plt.rcParams.update({'font.size': 20})
+    fig, ax = plt.subplots(figsize=(20, 8))
+    ax.set_xlim([time_prior, datetime.now()])
+    currency = get_currencies(country1, country2, str(datetime.now())[:11], str(time_prior)[:11])
+    print(currency)
+    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+    ax.plot(data1[measure], 'r.-', markersize=25, label=country1, linewidth=3)
+    ax.plot(data2[measure], 'y.-', markersize=25, label=country2, linewidth=3)
+    ax.grid()
+    plt.xticks(rotation=30, )
+    plt.title(measure + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
     plt.legend()
     ax.xaxis.label.set_color('white')
     ax.yaxis.label.set_color('white')
