@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 
 from DEApp.currency_code import get_currencies
 from DEApp.data_loader import COVID_DATA, GROUPS, CURRENCY_CODES
+from DEApp.shares_code import get_stock_data
 
 
 def prepare_covid_data(time):
@@ -111,27 +112,31 @@ def get_rank(measure):
     fig.clf()
 
 
-def draw_covid_shares(country, measure, time):
+def draw_covid_shares(long_name, measure, time):
     """
     Prepare basic plot.
-    :param country: str country name
-    :param measure: str measurement to be plotted
-    :param time: str time range for plot
     """
     data, time_prior = prepare_covid_data(time)
-    data = data[data['location'] == country]
-    plt.rcParams.update({'font.size': 20})
+    data_share = get_stock_data(long_name, int(time_prior.year), int(time_prior.month), int(time_prior.day))
+    data = data[data['location'] == 'World']
     fig, ax = plt.subplots(figsize=(20, 8))
-    ax.hist(data[measure], density=True, color='red', edgecolor='black')
-    plt.xticks(rotation=30,)
-    plt.title(measure + " in " + country + " histogram", fontdict={'fontsize': 40, 'color': "white"})
-    plt.legend()
+    ax.set_xlim([time_prior, datetime.now()])
+    plt.title(long_name + " price", fontdict={'fontsize': 40, 'color': "white"})
+    ax.grid()
     ax.xaxis.label.set_color('white')
     ax.yaxis.label.set_color('white')
     ax.xaxis.label.set_fontsize(30)
     ax.yaxis.label.set_fontsize(30)
     ax.tick_params(colors='white')
-    fig.savefig('static/images/covid4.png', dpi=300, bbox_inches='tight', transparent=True)
+    ax2 = ax.twinx()
+    ax2.plot(data[measure], 'g-', label=measure + ' in the whole world', linewidth=3)
+    ax.plot(data_share["Close"], 'r.-', markersize=25, label=long_name, linewidth=8)
+    plt.xticks(rotation=30, )
+    ax2.xaxis.label.set_color('white')
+    ax2.yaxis.label.set_color('white')
+    ax2.tick_params(colors='white')
+    plt.legend()
+    fig.savefig('static/images/covid5.png', dpi=300, bbox_inches='tight', transparent=True)
     fig.clf()
 
 
@@ -147,26 +152,31 @@ def draw_covid_currency(country1, country2, measure, time):
     data1 = data[data['location'] == country1]
     data2 = data[data['location'] == country2]
     plt.rcParams.update({'font.size': 20})
+    try:
+        currency = get_currencies(country1, country2, str(time_prior)[:10], str(datetime.now())[:10])
+    except:
+        currency = None
+
     fig, ax = plt.subplots(figsize=(20, 8))
     ax.set_xlim([time_prior, datetime.now()])
-    currency = get_currencies(country1, country2, str(time_prior)[:10], str(datetime.now())[:10])
-    ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-    ax.plot(data1[measure], 'r.-', markersize=25, label=country1, linewidth=3)
-    ax.plot(data2[measure], 'y.-', markersize=25, label=country2, linewidth=3)
-    ax2 = ax.twinx()
-    ax2.plot(currency, 'go-', markersize=25, label=CURRENCY_CODES[country1] + ' to ' +\
-             CURRENCY_CODES[country2], linewidth=8)
-    ax.grid()
-    plt.xticks(rotation=30, )
-    plt.title(measure + " and currencies " + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
-    plt.legend()
+    if currency is not None:
+        ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+        ax.plot(data1[measure], 'r.-', markersize=25, label=country1, linewidth=3)
+        ax.plot(data2[measure], 'y.-', markersize=25, label=country2, linewidth=3)
+        ax2 = ax.twinx()
+        ax2.plot(currency, 'go-', markersize=25, label=CURRENCY_CODES[country1] + ' to ' +\
+                 CURRENCY_CODES[country2], linewidth=8)
+        ax.grid()
+        plt.xticks(rotation=30, )
+        plt.title(measure + " and currencies " + " in " + country1 + " and " + country2, fontdict={'fontsize': 40, 'color': "white"})
+        plt.legend()
+        ax2.xaxis.label.set_color('white')
+        ax2.yaxis.label.set_color('white')
+        ax2.tick_params(colors='white')
     ax.xaxis.label.set_color('white')
     ax.yaxis.label.set_color('white')
-    ax2.xaxis.label.set_color('white')
-    ax2.yaxis.label.set_color('white')
     ax.xaxis.label.set_fontsize(30)
     ax.yaxis.label.set_fontsize(30)
     ax.tick_params(colors='white')
-    ax2.tick_params(colors='white')
     fig.savefig('static/images/covid4.png', dpi=300, bbox_inches='tight', transparent=True)
     fig.clf()
