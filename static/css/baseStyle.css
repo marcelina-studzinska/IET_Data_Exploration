@@ -195,19 +195,27 @@ a:hover {
     grid-row: 2;
 }
 
-.t31 {
+.t311 {
     text-align: center;
-    grid-column: 2 / 7;
-    grid-row: 3;
-    font-size: 27px;
-    font-weight: 500;
+    grid-column: 1 / 6;
+    grid-row: 1;
 }
 
-.t32 {
+.t312 {
+    text-align: center;
+    grid-column: 1 / 6;
+    grid-row: 2;
+}
+.t321 {
     text-align: center;
     grid-column: 7 / 12;
-    grid-row: 3;
-    font-size: 20px;
-    font-weight: 400;
+    grid-row: 1;
+
+}
+
+.t322 {
+    text-align: center;
+    grid-column: 7 / 12;
+    grid-row: 2;
 }
 
